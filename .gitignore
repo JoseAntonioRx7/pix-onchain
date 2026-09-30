@@ -2,7 +2,22 @@ node_modules/
 frontend/node_modules/
 artifacts/
 cache/
+typechain-types/
 frontend/dist/
 coverage/
+coverage.json
+.nyc_output/
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Package manager logs and local caches
+*-debug.log*
+.npm/
+
+# Operating system files
 .DS_Store
-*.log
+Thumbs.db
+desktop.ini
