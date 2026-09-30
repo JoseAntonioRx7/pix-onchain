@@ -48,7 +48,7 @@ O frontend mantém os três perfis sempre visíveis, permite alternar o usuário
 | Blockchain local | Hardhat `2.28.4` |
 | Tooling Hardhat | `@nomicfoundation/hardhat-toolbox` `6.1.2` |
 | Runtime Web3 | ethers `6.17.0` |
-| Frontend | Vite `6.3.5` + JavaScript vanilla |
+| Frontend | Vite `6.4.3` + Rollup WebAssembly + JavaScript vanilla |
 | Node.js | 18+; Node 22 é suportado pelo fluxo atual do projeto |
 
 Para Hardhat 2, o pacote atual do toolbox usa a linha `6.1.x`/tag compatível `hh2`; a versão `7.x` não é destinada a Hardhat 2.
