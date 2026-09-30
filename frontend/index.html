@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f766e" />
+    <meta name="description" content="PoC local de pagamentos P2P por chave amigável em blockchain." />
+    <title>Pix On-Chain · Laboratório Local</title>
+      <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app-shell" class="app-shell">
+      <div id="node-banner" class="banner banner-danger hidden" role="alert">
+        <div class="banner-icon">!</div>
+        <div>
+          <strong>Node local não encontrado</strong>
+          <span>Rode <code>npx hardhat node</code> em outro terminal e atualize a página.</span>
+        </div>
+      </div>
+
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">P</div>
+          <div>
+            <div class="brand-title">Pix On-Chain</div>
+            <div class="brand-subtitle">laboratório local de pagamentos</div>
+          </div>
+        </div>
+        <div class="network-pill">
+          <span class="status-dot"></span>
+          <span>Local · Chain 31337</span>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="hero-card">
+          <div>
+            <span class="eyebrow">PoC 100% local</span>
+            <h1>Pagamentos P2P por uma chave amigável.</h1>
+            <p>Experimente transferências digitais sem MetaMask, sem seed phrase e sem exibir endereços hexadecimais no fluxo principal.</p>
+          </div>
+          <div class="hero-note">
+            <span class="hero-note-label">Estado</span>
+            <strong id="chain-status">Conectando…</strong>
+            <span id="chain-status-detail">Aguardando o node local.</span>
+          </div>
+        </section>
+
+        <section class="profile-grid">
+          <article class="card profile-card">
+            <div class="card-header compact">
+              <div>
+                <span class="section-kicker">Perfil ativo</span>
+                <h2>Quem está usando?</h2>
+              </div>
+            </div>
+
+            <label class="field-label" for="profile-select">Perfil</label>
+            <select id="profile-select" class="field-select">
+              <option value="joao">João · Cliente</option>
+              <option value="ana">Ana · Mercado</option>
+              <option value="maria">Maria · Amiga</option>
+            </select>
+
+            <div class="active-profile">
+              <div id="active-avatar" class="avatar large">J</div>
+              <div class="active-profile-copy">
+                <strong id="active-name">João</strong>
+                <span id="active-role">Cliente</span>
+              </div>
+              <div class="active-balance">
+                <span>Saldo disponível</span>
+                <strong id="active-balance">R$ 1.000,00</strong>
+              </div>
+            </div>
+
+            <div id="approval-status" class="soft-status hidden">
+              <span class="spinner small"></span>
+              Preparando o pagamento…
+            </div>
+          </article>
+
+          <article class="card balance-card">
+            <div class="card-header compact">
+              <div>
+                <span class="section-kicker">Visão geral</span>
+                <h2>Saldos dos perfis</h2>
+              </div>
+              <span class="live-badge"><span class="status-dot"></span> Atualização automática</span>
+            </div>
+            <div id="balances-list" class="balances-list"></div>
+          </article>
+        </section>
+
+        <section class="main-grid">
+          <div class="left-column">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <span class="section-kicker">Identidade amigável</span>
+                  <h2>Minhas chaves Pix</h2>
+                  <p>Cadastre até cinco chaves para receber pagamentos.</p>
+                </div>
+                <div class="limit-badge" id="key-count-badge">0/5</div>
+              </div>
+
+              <form id="key-form" class="stack-form">
+                <label class="field-label" for="key-input">Nova chave</label>
+                <div class="input-action">
+                  <input id="key-input" class="field-input" autocomplete="off" placeholder="telefone, e-mail ou apelido" maxlength="64" />
+                  <button id="key-submit" class="button secondary" type="submit">Cadastrar chave</button>
+                </div>
+                <span class="field-hint">3–64 caracteres, sem espaços. Ex.: +5581999990001 · mercadoana · ana@email.com</span>
+              </form>
+
+              <div id="keys-list" class="keys-list"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <span class="section-kicker">Atividade</span>
+                  <h2>Histórico de transações</h2>
+                  <p>As últimas 10 movimentações do perfil ativo.</p>
+                </div>
+              </div>
+              <div id="history-list" class="history-list"></div>
+            </article>
+          </div>
+
+          <div class="right-column">
+            <article class="card payment-card">
+              <div class="card-header">
+                <div>
+                  <span class="section-kicker">Transferência</span>
+                  <h2>Pagar com Pix</h2>
+                  <p>Digite a chave. O destinatário é resolvido antes do envio.</p>
+                </div>
+              </div>
+
+              <form id="payment-form" class="stack-form">
+                <label class="field-label" for="destination-input">Chave de destino</label>
+                <input id="destination-input" class="field-input" autocomplete="off" placeholder="ex.: mercadoana" maxlength="64" />
+
+                <div id="recipient-preview" class="recipient-preview hidden"></div>
+
+                <label class="field-label" for="amount-input">Valor (R$)</label>
+                <div class="money-input-wrap">
+                  <span>R$</span>
+                  <input id="amount-input" class="money-input" inputmode="decimal" autocomplete="off" placeholder="0,00" />
+                </div>
+
+                <button id="send-button" class="button primary" type="submit">
+                  <span class="button-label">Enviar pagamento</span>
+                  <span class="spinner hidden" id="send-spinner"></span>
+                </button>
+              </form>
+
+              <div class="secure-note">
+                <span class="secure-icon">✓</span>
+                <span>Taxas, nonce e endereço hexadecimal ficam ocultos no fluxo principal.</span>
+              </div>
+            </article>
+
+            <details class="card developer-card">
+              <summary>
+                <span>
+                  <span class="section-kicker">Diagnóstico</span>
+                  <strong>Modo Desenvolvedor</strong>
+                </span>
+                <span class="summary-arrow">⌄</span>
+              </summary>
+              <div class="developer-grid">
+                <div><span>PixToken</span><code id="dev-token">—</code></div>
+                <div><span>PixRegistry</span><code id="dev-registry">—</code></div>
+                <div><span>Wallet ativa</span><code id="dev-wallet">—</code></div>
+                <div><span>Última transação</span><code id="dev-tx">—</code></div>
+                <div><span>Bloco</span><code id="dev-block">—</code></div>
+              </div>
+              <p class="developer-warning">As chaves privadas dos perfis são públicas e existem somente para o ambiente local do Hardhat.</p>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+      <footer class="footer">
+        <span>Pix On-Chain · PoC local</span>
+        <span>Sem mainnet · Sem testnet · Sem backend</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
