@@ -1,20 +1,228 @@
 [
-  {"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},
-  {"inputs":[],"name":"AutoTransferenciaNaoPermitida","type":"error"},
-  {"inputs":[],"name":"ChaveInvalida","type":"error"},
-  {"inputs":[],"name":"ChaveJaRegistrada","type":"error"},
-  {"inputs":[],"name":"ChaveNaoEncontrada","type":"error"},
-  {"inputs":[],"name":"LimiteDeChavesAtingido","type":"error"},
-  {"inputs":[],"name":"NaoEDonoDaChave","type":"error"},
-  {"inputs":[],"name":"ValorInvalido","type":"error"},
-  {"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},
-  {"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-  {"inputs":[{"internalType":"address","name":"dono","type":"address"}],"name":"chavesDe","outputs":[{"internalType":"string[]","name":"chaves","type":"string[]"}],"stateMutability":"view","type":"function"},
-  {"inputs":[{"internalType":"string","name":"chave","type":"string"}],"name":"registrarChave","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"string","name":"chave","type":"string"}],"name":"removerChave","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"string","name":"chave","type":"string"}],"name":"resolverChave","outputs":[{"internalType":"address","name":"endereco","type":"address"}],"stateMutability":"view","type":"function"},
-  {"inputs":[{"internalType":"string","name":"chaveDestino","type":"string"},{"internalType":"uint256","name":"valor","type":"uint256"}],"name":"transferirPorChave","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"dono","type":"address"},{"indexed":false,"internalType":"string","name":"chave","type":"string"}],"name":"ChaveRegistrada","type":"event"},
-  {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"dono","type":"address"},{"indexed":false,"internalType":"string","name":"chave","type":"string"}],"name":"ChaveRemovida","type":"event"},
-  {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"de","type":"address"},{"indexed":true,"internalType":"address","name":"para","type":"address"},{"indexed":false,"internalType":"string","name":"chaveDestino","type":"string"},{"indexed":false,"internalType":"uint256","name":"valor","type":"uint256"}],"name":"PixEnviado","type":"event"}
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AutoTransferenciaNaoPermitida",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ChaveInvalida",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ChaveJaRegistrada",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ChaveNaoEncontrada",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "LimiteDeChavesAtingido",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NaoEDonoDaChave",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ReentrancyGuardReentrantCall",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "SafeERC20FailedOperation",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ValorInvalido",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "dono",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "chave",
+        "type": "string"
+      }
+    ],
+    "name": "ChaveRegistrada",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "dono",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "chave",
+        "type": "string"
+      }
+    ],
+    "name": "ChaveRemovida",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "de",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "para",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "chaveDestino",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "valor",
+        "type": "uint256"
+      }
+    ],
+    "name": "PixEnviado",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "dono",
+        "type": "address"
+      }
+    ],
+    "name": "chavesDe",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "chaves",
+        "type": "string[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "chave",
+        "type": "string"
+      }
+    ],
+    "name": "registrarChave",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "chave",
+        "type": "string"
+      }
+    ],
+    "name": "removerChave",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "chave",
+        "type": "string"
+      }
+    ],
+    "name": "resolverChave",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "endereco",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "chaveDestino",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "valor",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferirPorChave",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
 ]

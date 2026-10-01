@@ -385,3 +385,20 @@ A PoC agora está pronta para receber incrementos sem misturar responsabilidades
 ## 15. Referência da arquitetura original
 
 Este repositório segue a especificação fornecida para a PoC: Solidity 0.8.x + OpenZeppelin 5, Hardhat + ethers v6, node local em `31337`, frontend vanilla, sem MetaMask/backend, com perfis simulados e chaves amigáveis. A implementação também mantém o fluxo de `approve` invisível, os artefatos de deploy para o frontend e o cenário de demonstração proposto.
+
+
+## 16. Referências por imagens
+
+![alt text](image.png)
+
+
+![alt text](image-1.png)
+
+
+![alt text](image-2.png)
+
+
+![alt text](image-3.png)
+
+
+![alt text](image-4.png)
